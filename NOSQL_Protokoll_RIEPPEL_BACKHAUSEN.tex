@@ -1,0 +1,75 @@
+\documentclass[a4paper,12pt]{scrreprt}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[table]{xcolor}% http://ctan.org/pkg/xcolor
+\usepackage{tabu}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+
+\begin{document}
+
+
+%\titlehead{Kopf} %Optionale Kopfzeile
+\author{Alexander Rieppel \and Dominik Backhausen} %Zwei Autoren
+\title{ NOSQL } %Titel/Thema
+\subject{VSDB} %Fach
+%\subtitle{ } %Genaueres Thema, Optional
+\date{\today} %Datum
+\publishers{5AHITT} %Klasse
+
+\maketitle
+\tableofcontents
+
+
+\chapter{Aufgabenstellung}
+Entwerfen Sie ein System zur Verwaltung von alten Prüfungsfragen und Aufgabenstellungen. Beachten Sie dabei eine einfache und modulare Art der Datenspeicherung. Es soll die Möglichkeit bestehen, Fragen zu unterschiedlichen Hauptkategorien zuzuordnen (Unterrichtsfächer bzw. Kompetenzbereich, z.B. INSY, SYT bzw. "Dezentrale Systeme" etc.). Weiters soll es aber auch möglich sein den Fragen und Aufgaben weitere Informationen beizufügen (Tags, z.B. JEE, Datawarehouse, XML, Hibernate etc.). Fragen werden Kandidaten bzw. Klassen zur Vorbereitung an einem bestimmten Termin zugewiesen. Die Liste aller Fragen und Aufgaben soll sortierbar sein und als solche auch ausgedruckt werden können. Da die endgültige Definition der Archivierung nicht abgeschlossen ist, muss eine einfache Erweiterungsmöglichkeit gegeben sein.\\\\Die Anzeige und Verwaltung der Fragen soll nur authentifizierten Benutzern gestattet werden.\\\\Achten Sie beim Design und der Implementierung des Systems auf Modularität und Erweiterbarkeit. Verwenden Sie für die graphische Visualisierung ebenfalls gängige Frameworks, wie zum Beispiel Bootstrap . Verwenden Sie für die Implementierung ein passendes Web-Framework (Python, Java, PHP, ...) und ein der Aufgabenstellung entsprechendes NoSQL-Datenbankmanagementsystem (MongoDB, ...).\\\\Gruppenarbeit von 2 bis 4 Mitgliedern, wobei die Anforderungen (graphische Oberfläche, funktionale Anforderungen) der Anzahl der Gruppenmitgliedern angepasst wird. Erweiterungen werden in Klammern entsprechend deklariert (z.B. 4er Gruppe muss es zusätzlich implementieren, die anderen müssen es nicht realisieren aber die technische Möglichkeit im Protokoll erörtern), sonst ist es ein Must-Have-Requirement.
+\section{Anforderungen}
+\begin{itemize}
+\item Anzeige / Editierbarkeit [multiplizität]
+\subitem Aufgabenart (Maturafrage, praktische Aufgabenstellung, schriftliche Mitarbeitsüberprüfung, Jahresprüfung, ...) [1..*]
+\subitem Kategorie (SYT, INSY, Dezentrale Systeme, ...) [1..*]
+\subitem Tags (JEE, Hibernate, XML, ...) [0..*]
+\subitem Author [1..*]
+\subitem erstellt / zuletzt geändert [1]
+\subitem zuletzt verwendet [0..*]
+\subitem zugeteilt [0..*]
+\subitem Angabentext [1]
+\subitem Hinzufügen von zusätzlichen Keys und deren Values (4er)
+\subitem Zusätzliche Attachments (Bilder, Videos, etc.) (3er)
+\item Suche
+\subitem Aufgabenart, Kategorie und Tags
+\subitem Datum
+\subitem Volltextsuche über alle Values (4er)
+\item Administration
+\subitem Benutzer verwalten
+\subitem Logging von Benutzeraktionen (4er)
+\subitem Snapshots und Wiederherstellung der Datenbasis (3er)
+\end{itemize}
+\chapter{Designüberlegungen}
+\section{Zu implementierende Anforderungen}
+
+\section{3er- und 4er-Gruppen Anforderungen}
+
+\chapter{Arbeitsaufteilung}
+	\tabulinesep = 4pt
+	\begin{tabu}  {|[2pt]X[2.5,c] |[1pt] X[4,c] |[1pt]X[1.3,c]|[1pt]X[c]|[2pt]}
+		\tabucline[2pt]{-}
+		Name & Arbeitssegment & Time Estimated & Time Spent\\\tabucline[2pt]{-}
+		Alexander Rieppel & Datenbank installieren & 1h & 0.5h\\\tabucline[1pt]{-}
+		Alexander Rieppel & Datenbank konfigurieren & 1h & 1h\\\tabucline[1pt]{-}
+		Alexander Rieppel & JavaEE Servlet schreiben & 2h & 1h\\\tabucline[1pt]{-}
+		Dominik Backhausen & JavaEE Servlet schreiben & 2h & 3h\\\tabucline[1pt]{-}
+		Dominik Backhausen & Datenbank Schnittstelle schreiben& 2h & 1.5h\\\tabucline[2pt]{-}
+		Gesamt && 8h & 7h\\\tabucline[2pt]{-}
+	\end{tabu}	
+	
+\chapter{Arbeitsdurchführung}
+\chapter{Testbericht}
+\chapter{Quellen}
+\href{http://docs.mongodb.org/manual/reference/}{[1]http://docs.mongodb.org/manual/reference/}\\
+\href{https://www.mongodb.org/}{[2]https://www.mongodb.org/}\\
+\href{http://api.mongodb.org/java/}{[3]http://api.mongodb.org/java/}
+\end{document}
