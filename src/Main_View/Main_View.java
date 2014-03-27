@@ -176,7 +176,7 @@ public class Main_View extends HttpServlet {
 			out.println("<tr><td colspan=\"2\" align=\"center\"><textarea name=\"aufgabe\">"+auf.getAngabe()+"</textarea></td></tr>");
 			out.println("<tr><td>Erstellt:</td><td>"+simp.format(auf.getCreated())+"</td></tr>");
 			out.println("<tr><td>Zuletzt Bearbeited:</td><td>"+simp.format(auf.getLastedit())+"</td></tr>");
-			out.println("<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"Speichern\"></td></tr>");
+			out.println("<tr><td align=\"center\"><a href=\"/NOSQL/Aufgaben/main?save=fin\">Zur&uuml;ck</a></td><td align=\"center\"><input type=\"submit\" value=\"Speichern\"></td></tr>");
 			out.println("</table>");
 			out.println("<input type=\"hidden\" name=\"inc\" value=\""+auf.getID()._inc()+"\">");
 			out.println("<input type=\"hidden\" name=\"machine\" value=\""+auf.getID()._machine()+"\">");
@@ -193,7 +193,7 @@ public class Main_View extends HttpServlet {
 			out.println("<tr><td>Zugeteilt am:</td><td align=\"center\"><input name=\"zuamyyyy\" type=\"text\" maxlength=4 size=3 >-<input name=\"zuamMM\" type=\"text\" size=2 maxlength=2 >-<input name=\"zuamdd\" type=\"text\" size=2 maxlength=2 > <input name=\"zuamHH\" type=\"text\" size=2 maxlength=2 >:<input name=\"zuammm\" type=\"text\" size=2 maxlength=2 ></td></tr>");
 			out.println("<tr><td colspan=\"2\" align=\"center\">Aufgabe:</td></tr>");
 			out.println("<tr><td colspan=\"2\" align=\"center\"><textarea name=\"aufgabe\"></textarea></td></tr>");
-			out.println("<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"Speichern\"></td></tr>");
+			out.println("<tr><td align=\"center\"><a href=\"/NOSQL/Aufgaben/main?save=fin\">Zur&uuml;ck</a></td><td align=\"center\"><input type=\"submit\" value=\"Speichern\"></td></tr>");
 			out.println("</table>");
 			out.println("</form>");
 		}
