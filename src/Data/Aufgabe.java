@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.bson.types.ObjectId;
 
-public class Aufgabe {
+public class Aufgabe implements Comparable<Aufgabe>{
 	public static SimpleDateFormat dateform = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 	public static SimpleDateFormat dateformdate = new SimpleDateFormat("YYYY-MM-dd");
 	public static SimpleDateFormat dateformtime = new SimpleDateFormat("HH:mm:ss");
@@ -97,6 +97,10 @@ public class Aufgabe {
 	
 	@Override
 	public String toString(){
-		return "AUFGABE: " +this.art + ", Author: " + this.autor;
+		return this.art;
+	}
+	@Override
+	public int compareTo(Aufgabe o) {
+		return this.art.compareTo(o.art);
 	}
 }

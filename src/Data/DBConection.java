@@ -14,6 +14,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.QueryBuilder;
 
 public class DBConection implements DataHandler{
 	public static String Art = "Art", Author = "Author", Kathegorie = "Kathegorie", Tags = "Tags", 
@@ -23,6 +24,25 @@ public class DBConection implements DataHandler{
 	private DB db;
 	public DBConection (String ip, String dbname) throws UnknownHostException{
 		this(ip,27017 ,dbname);
+	}
+	@Override
+	public List<Aufgabe> getAll() {
+		if(db.isAuthenticated()){
+			List<Aufgabe> list = new ArrayList<Aufgabe>();
+			DBCollection aufgaben = db.getCollection("Aufgaben");
+			DBCursor cursor = aufgaben.find();
+			while(cursor.hasNext()) {
+				try{
+				DBObject ob = cursor.next();
+				list.add(export(ob));
+	//			System.out.println(ob);
+				}catch(ParseException e){}
+			}
+			cursor.close();
+			return list;
+		}else{
+			return null;
+		}
 	}
 	public DBConection (String ip, int port, String dbname) throws UnknownHostException{
 		client = new MongoClient(ip,port);
@@ -50,25 +70,6 @@ public class DBConection implements DataHandler{
 			return false;
 		}
 	}
-	@Override
-	public List<Aufgabe> getAll() {
-		if(db.isAuthenticated()){
-			List<Aufgabe> list = new ArrayList<Aufgabe>();
-			DBCollection aufgaben = db.getCollection("Aufgaben");
-			DBCursor cursor = aufgaben.find();
-			while(cursor.hasNext()) {
-				try{
-				DBObject ob = cursor.next();
-				list.add(export(ob));
-	//			System.out.println(ob);
-				}catch(ParseException e){}
-			}
-			cursor.close();
-			return list;
-		}else{
-			return null;
-		}
-	}
 	private Date getDate(DBObject ob, String key) throws ParseException{
 		DBObject ob1 = (DBObject)ob.get(key);
 		String d = (String)ob1.get(DBConection.Date);
@@ -86,15 +87,17 @@ public class DBConection implements DataHandler{
 		if(db.isAuthenticated()){
 			List<Aufgabe> list = new ArrayList<Aufgabe>();
 			DBCollection aufgaben = db.getCollection("Aufgaben");
-			DBCursor cursor = aufgaben.find(new BasicDBObject().append("$or", 
-					new BasicDBObject().append(DBConection.Art, suche)
-					.append(DBConection.Kathegorie, suche)
-					.append(DBConection.Tags, suche)));
+			
+			DBObject findObj = QueryBuilder.start().or(
+					new BasicDBObject(DBConection.Art, java.util.regex.Pattern.compile(suche))).or(
+					new BasicDBObject(DBConection.Kathegorie, java.util.regex.Pattern.compile(suche))).or(
+					new BasicDBObject(DBConection.Tags, java.util.regex.Pattern.compile(suche))).get();;
+			DBCursor cursor = aufgaben.find(findObj);
 			while(cursor.hasNext()) {
 				try{
-				DBObject ob = cursor.next();
-				list.add(export(ob));
-	//			System.out.println(ob);
+					DBObject ob = cursor.next();
+					list.add(export(ob));
+		//			System.out.println(ob);
 				}catch(ParseException e){}
 			}
 			cursor.close();
@@ -104,12 +107,15 @@ public class DBConection implements DataHandler{
 		}
 	}
 	@Override
-	public List<Aufgabe> find(Date from, Date to) {
+	public List<Aufgabe> find(Date suche) {
 		if(db.isAuthenticated()){
 			List<Aufgabe> list = new ArrayList<Aufgabe>();
 			DBCollection aufgaben = db.getCollection("Aufgaben");
-			//TODO suche nach datum
-			DBCursor cursor = aufgaben.find();
+			DBObject ob1 = QueryBuilder.start().or(
+					new BasicDBObject(DBConection.Created+"."+DBConection.Date,Aufgabe.dateformdate.format(suche))).or(
+					new BasicDBObject(DBConection.ZueteiltAm+"."+DBConection.Date,Aufgabe.dateformdate.format(suche))).or(
+					new BasicDBObject(DBConection.LastEdit+"."+DBConection.Date,Aufgabe.dateformdate.format(suche))).get();
+			DBCursor cursor = aufgaben.find(ob1);
 			while(cursor.hasNext()) {
 				try{
 				DBObject ob = cursor.next();
