@@ -50,8 +50,13 @@ Entwerfen Sie ein System zur Verwaltung von alten Prüfungsfragen und Aufgabenst
 \end{itemize}
 \chapter{Designüberlegungen}
 \section{Zu implementierende Anforderungen}
+Als Datenbank wird MongoDB verwendet und für die Administrationsoberfläche wird ein Servlet erstellt, welches in Java EE implementiert wird. Für die Speicherung von Aufgabenart, Kategorie, Tags, Autor und Angabentext, werden simple Strings in der Datenbank abgelegt. Für erstellt/zuletzt geändert sowie zuletzt verwendet wird ein Datum im entsprechenden Format abgespeichert. Die Suche %TODO
+Die Benutzerverwaltung läuft über eine eigene Administrationsseite ab die über den Browser aufgerufen werden kann. 
 
 \section{3er- und 4er-Gruppen Anforderungen}
+Für das Hinzufügen von zusätzlichen Keys und deren Values wird der Datensatz  gesucht und ein update auf diesen durchgeführt. Für zusätzliche Attachments von z.B. Bildern und Videos, wird einfach ein Button erstellt hinter den das entsprechende File per link angehängt wird. Dies könnte unter Umständen auch ein ftp Link sein. Die Volltextsuche %TODO
+Das Logging der Benutzeraktionen könnte z.B. über ein eigenes Framework realisiert werden (Log4j). Snapshots und Wiederherstellung der Datenbasis %TODO
+
 
 \chapter{Arbeitsaufteilung}
 	\tabulinesep = 4pt
@@ -67,7 +72,22 @@ Entwerfen Sie ein System zur Verwaltung von alten Prüfungsfragen und Aufgabenst
 	\end{tabu}	
 	
 \chapter{Arbeitsdurchführung}
+\section{Resultate}
+\begin{itemize}
+\item MongoDB wurde erfolgreich installiert und konfiguriert
+\item Das Servlet wurde funktionalistisch so wie in der Designüberlegung angegeben implementiert
+\item Die Speicherung der Strings funktioniert problemlos
+\item Die Daten für erstellt, zuletzt verwendet etc. werden einwandfrei angezeigt und gespeichert
+\item Die Suche funktioniert so wie in der Designüberlegung angegeben
+\item Die Benutzerverwaltung läuft über eine Adminseite
+\end{itemize}
+\section{Niederlagen}
+\begin{itemize}
+\item Bei der Darstellung des Servlets im Browser wurde auf ein externes Framework verzichtet und reines html verwendet
+
+\end{itemize}
 \chapter{Testbericht}
+%TODO
 \chapter{Quellen}
 \href{http://docs.mongodb.org/manual/reference/}{[1]http://docs.mongodb.org/manual/reference/}\\
 \href{https://www.mongodb.org/}{[2]https://www.mongodb.org/}\\
