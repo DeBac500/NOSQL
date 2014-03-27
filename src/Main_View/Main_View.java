@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -144,6 +146,21 @@ public class Main_View extends HttpServlet {
 				}
 				response.setStatus(response.SC_MOVED_TEMPORARILY);
 				response.setHeader("Location", "/NOSQL/Aufgaben/main?save=fin");
+			}else if("suche".equalsIgnoreCase(url[url.length-1])){
+				String suche = request.getParameter("suche");
+				if(suche == null){
+					suche = request.getParameter("suche1");
+					if(suche==null){
+						
+					}else{
+						SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd");
+						List<Aufgabe> list = db.find(simp.parse(suche));
+						this.setUPSuche(list, out, request, response);
+					}
+				}else{
+					List<Aufgabe> list = db.find(suche);
+					this.setUPSuche(list, out, request, response);
+				}
 			}else{
 				out.println("<h1>ERROR 404: Fehler Falscher URL!</h1>");
 			}
@@ -176,7 +193,7 @@ public class Main_View extends HttpServlet {
 			out.println("<tr><td colspan=\"2\" align=\"center\"><textarea name=\"aufgabe\">"+auf.getAngabe()+"</textarea></td></tr>");
 			out.println("<tr><td>Erstellt:</td><td>"+simp.format(auf.getCreated())+"</td></tr>");
 			out.println("<tr><td>Zuletzt Bearbeited:</td><td>"+simp.format(auf.getLastedit())+"</td></tr>");
-			out.println("<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"Speichern\"></td></tr>");
+			out.println("<tr><td align=\"center\"><a href=\"/NOSQL/Aufgaben/main?save=fin\">Zur&uuml;ck</a></td><td align=\"center\"><input type=\"submit\" value=\"Speichern\"></td></tr>");
 			out.println("</table>");
 			out.println("<input type=\"hidden\" name=\"inc\" value=\""+auf.getID()._inc()+"\">");
 			out.println("<input type=\"hidden\" name=\"machine\" value=\""+auf.getID()._machine()+"\">");
@@ -193,7 +210,7 @@ public class Main_View extends HttpServlet {
 			out.println("<tr><td>Zugeteilt am:</td><td align=\"center\"><input name=\"zuamyyyy\" type=\"text\" maxlength=4 size=3 >-<input name=\"zuamMM\" type=\"text\" size=2 maxlength=2 >-<input name=\"zuamdd\" type=\"text\" size=2 maxlength=2 > <input name=\"zuamHH\" type=\"text\" size=2 maxlength=2 >:<input name=\"zuammm\" type=\"text\" size=2 maxlength=2 ></td></tr>");
 			out.println("<tr><td colspan=\"2\" align=\"center\">Aufgabe:</td></tr>");
 			out.println("<tr><td colspan=\"2\" align=\"center\"><textarea name=\"aufgabe\"></textarea></td></tr>");
-			out.println("<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"Speichern\"></td></tr>");
+			out.println("<tr><td align=\"center\"><a href=\"/NOSQL/Aufgaben/main?save=fin\">Zur&uuml;ck</a></td><td align=\"center\"><input type=\"submit\" value=\"Speichern\"></td></tr>");
 			out.println("</table>");
 			out.println("</form>");
 		}
@@ -204,6 +221,31 @@ public class Main_View extends HttpServlet {
 		out.println("<table border=\"1\" align=\"center\">");
 		out.println("<tr><th>Art</th><th>Kathegorie</th><th>Tags</th><th>Autor</th><th>Zugeteilt</th><th>Zugeteilt am</th><th>Erstellt</th><th>Zuletzt ge&auml;ndert</th><th><a href=\"/NOSQL/Aufgaben/main/edit\">Neue Aufgabe</a></th></tr>");
 		List<Aufgabe> list = db.getAll();
+		Collections.sort(list);
+		SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		for(Aufgabe temp: list){
+			out.println("<tr>");
+			out.println("<td>"+temp.getArt()+"</td>");
+			out.println("<td>"+temp.getKathegorie()+"</td>");
+			out.println("<td>"+temp.getTags()+"</td>");
+			out.println("<td>"+temp.getAutor()+"</td>");
+			out.println("<td>"+temp.getZugeteilt()+"</td>");
+			out.println("<td>"+simp.format(temp.getZugeteiltam())+"</td>");
+			out.println("<td>"+simp.format(temp.getCreated())+"</td>");
+			out.println("<td>"+simp.format(temp.getLastedit())+"</td>");
+			out.println("<td><a href=\"/NOSQL/Aufgaben/main/edit?inc="+temp.getID()._inc()+"&machine="+temp.getID()._machine()+"&time="+temp.getID()._time()+"\">bearbeiten</a></td>");
+			out.println("</tr>");
+		}
+		out.println("</table>");
+	}
+	public void setUPSuche(List<Aufgabe> list, PrintWriter out, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
+		rd.include(request, response);
+		out.println("<p align=\"center\"/>");
+		out.println("<a href=\"/NOSQL/Aufgaben/main?save=fin\">Zur&uuml;ck</a></br>");
+		out.println("<table border=\"1\" align=\"center\">");
+		out.println("<tr><th>Art</th><th>Kathegorie</th><th>Tags</th><th>Autor</th><th>Zugeteilt</th><th>Zugeteilt am</th><th>Erstellt</th><th>Zuletzt ge&auml;ndert</th><th><a href=\"/NOSQL/Aufgaben/main/edit\">Neue Aufgabe</a></th></tr>");
+		Collections.sort(list);
 		SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		for(Aufgabe temp: list){
 			out.println("<tr>");

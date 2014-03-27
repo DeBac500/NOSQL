@@ -14,15 +14,35 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.QueryBuilder;
 
 public class DBConection implements DataHandler{
 	public static String Art = "Art", Author = "Author", Kathegorie = "Kathegorie", Tags = "Tags", 
 			Zugeteilt = "Zugeteilt",Created = "Created", LastEdit = "LastEdit" , ZueteiltAm = "ZugeteiltAm",
-			Date = "Date", Time = "Time", ID = "_id";
+			Date = "Date", Time = "Time", ID = "_id", Angabe="Angabe";
 	private MongoClient client;
 	private DB db;
 	public DBConection (String ip, String dbname) throws UnknownHostException{
 		this(ip,27017 ,dbname);
+	}
+	@Override
+	public List<Aufgabe> getAll() {
+		if(db.isAuthenticated()){
+			List<Aufgabe> list = new ArrayList<Aufgabe>();
+			DBCollection aufgaben = db.getCollection("Aufgaben");
+			DBCursor cursor = aufgaben.find();
+			while(cursor.hasNext()) {
+				try{
+				DBObject ob = cursor.next();
+				list.add(export(ob));
+	//			System.out.println(ob);
+				}catch(ParseException e){}
+			}
+			cursor.close();
+			return list;
+		}else{
+			return null;
+		}
 	}
 	public DBConection (String ip, int port, String dbname) throws UnknownHostException{
 		client = new MongoClient(ip,port);
@@ -38,6 +58,7 @@ public class DBConection implements DataHandler{
 			ob.append(DBConection.Kathegorie, save.getKathegorie());
 			ob.append(DBConection.Tags, save.getTags());
 			ob.append(DBConection.Zugeteilt, save.getZugeteilt());
+			ob.append(DBConection.Angabe, save.getAngabe());
 			
 			ob.append(DBConection.Created, saveDate(save.getCreated()));
 			ob.append(DBConection.LastEdit, saveDate(save.getLastedit()));
@@ -47,37 +68,6 @@ public class DBConection implements DataHandler{
 			return true;
 		}else{
 			return false;
-		}
-	}
-	@Override
-	public List<Aufgabe> getAll() {
-		if(db.isAuthenticated()){
-			List<Aufgabe> list = new ArrayList<Aufgabe>();
-			DBCollection aufgaben = db.getCollection("Aufgaben");
-			DBCursor cursor = aufgaben.find();
-			while(cursor.hasNext()) {
-				try{
-				DBObject ob = cursor.next();
-				Aufgabe temp = new Aufgabe();
-				
-				temp.setArt((String)ob.get(DBConection.Art));
-				temp.setAutor((String)ob.get(DBConection.Author));
-				temp.setKathegorie((String)ob.get(DBConection.Kathegorie));
-				temp.setTags((String)ob.get(DBConection.Tags));
-				temp.setZugeteilt((String)ob.get(DBConection.Zugeteilt));
-				temp.setCreated(getDate(ob, DBConection.Created));
-				temp.setLastedit(getDate(ob, DBConection.LastEdit));
-				temp.setZugeteiltam(getDate(ob, DBConection.ZueteiltAm));
-				temp.setID((ObjectId)ob.get(DBConection.ID));
-				
-				list.add(temp);
-	//			System.out.println(ob);
-				}catch(ParseException e){}
-			}
-			cursor.close();
-			return list;
-		}else{
-			return null;
 		}
 	}
 	private Date getDate(DBObject ob, String key) throws ParseException{
@@ -97,27 +87,17 @@ public class DBConection implements DataHandler{
 		if(db.isAuthenticated()){
 			List<Aufgabe> list = new ArrayList<Aufgabe>();
 			DBCollection aufgaben = db.getCollection("Aufgaben");
-			DBCursor cursor = aufgaben.find(new BasicDBObject().append("$or", 
-					new BasicDBObject().append(DBConection.Art, suche)
-					.append(DBConection.Kathegorie, suche)
-					.append(DBConection.Tags, suche)));
+			
+			DBObject findObj = QueryBuilder.start().or(
+					new BasicDBObject(DBConection.Art, java.util.regex.Pattern.compile(suche))).or(
+					new BasicDBObject(DBConection.Kathegorie, java.util.regex.Pattern.compile(suche))).or(
+					new BasicDBObject(DBConection.Tags, java.util.regex.Pattern.compile(suche))).get();;
+			DBCursor cursor = aufgaben.find(findObj);
 			while(cursor.hasNext()) {
 				try{
-				DBObject ob = cursor.next();
-				Aufgabe temp = new Aufgabe();
-				
-				temp.setArt((String)ob.get(DBConection.Art));
-				temp.setAutor((String)ob.get(DBConection.Author));
-				temp.setKathegorie((String)ob.get(DBConection.Kathegorie));
-				temp.setTags((String)ob.get(DBConection.Tags));
-				temp.setZugeteilt((String)ob.get(DBConection.Zugeteilt));
-				temp.setCreated(getDate(ob, DBConection.Created));
-				temp.setLastedit(getDate(ob, DBConection.LastEdit));
-				temp.setZugeteiltam(getDate(ob, DBConection.ZueteiltAm));
-				temp.setID((ObjectId)ob.get(DBConection.ID));
-				
-				list.add(temp);
-	//			System.out.println(ob);
+					DBObject ob = cursor.next();
+					list.add(export(ob));
+		//			System.out.println(ob);
 				}catch(ParseException e){}
 			}
 			cursor.close();
@@ -127,28 +107,19 @@ public class DBConection implements DataHandler{
 		}
 	}
 	@Override
-	public List<Aufgabe> find(Date from, Date to) {
+	public List<Aufgabe> find(Date suche) {
 		if(db.isAuthenticated()){
 			List<Aufgabe> list = new ArrayList<Aufgabe>();
 			DBCollection aufgaben = db.getCollection("Aufgaben");
-			//TODO suche nach datum
-			DBCursor cursor = aufgaben.find();
+			DBObject ob1 = QueryBuilder.start().or(
+					new BasicDBObject(DBConection.Created+"."+DBConection.Date,Aufgabe.dateformdate.format(suche))).or(
+					new BasicDBObject(DBConection.ZueteiltAm+"."+DBConection.Date,Aufgabe.dateformdate.format(suche))).or(
+					new BasicDBObject(DBConection.LastEdit+"."+DBConection.Date,Aufgabe.dateformdate.format(suche))).get();
+			DBCursor cursor = aufgaben.find(ob1);
 			while(cursor.hasNext()) {
 				try{
 				DBObject ob = cursor.next();
-				Aufgabe temp = new Aufgabe();
-				
-				temp.setArt((String)ob.get(DBConection.Art));
-				temp.setAutor((String)ob.get(DBConection.Author));
-				temp.setKathegorie((String)ob.get(DBConection.Kathegorie));
-				temp.setTags((String)ob.get(DBConection.Tags));
-				temp.setZugeteilt((String)ob.get(DBConection.Zugeteilt));
-				temp.setCreated(getDate(ob, DBConection.Created));
-				temp.setLastedit(getDate(ob, DBConection.LastEdit));
-				temp.setZugeteiltam(getDate(ob, DBConection.ZueteiltAm));
-				temp.setID((ObjectId)ob.get(DBConection.ID));
-				
-				list.add(temp);
+				list.add(export(ob));
 	//			System.out.println(ob);
 				}catch(ParseException e){}
 			}
@@ -176,6 +147,7 @@ public class DBConection implements DataHandler{
 					ob.append(DBConection.Kathegorie, save.getKathegorie());
 					ob.append(DBConection.Tags, save.getTags());
 					ob.append(DBConection.Zugeteilt, save.getZugeteilt());
+					ob.append(DBConection.Angabe, save.getAngabe());
 					
 					ob.append(DBConection.Created, saveDate(save.getCreated()));
 					ob.append(DBConection.LastEdit, saveDate(save.getLastedit()));
@@ -215,19 +187,7 @@ public class DBConection implements DataHandler{
 				while(cursor.hasNext()) {
 					try{
 					DBObject ob = cursor.next();
-					Aufgabe temp = new Aufgabe();
-					
-					temp.setArt((String)ob.get(DBConection.Art));
-					temp.setAutor((String)ob.get(DBConection.Author));
-					temp.setKathegorie((String)ob.get(DBConection.Kathegorie));
-					temp.setTags((String)ob.get(DBConection.Tags));
-					temp.setZugeteilt((String)ob.get(DBConection.Zugeteilt));
-					temp.setCreated(getDate(ob, DBConection.Created));
-					temp.setLastedit(getDate(ob, DBConection.LastEdit));
-					temp.setZugeteiltam(getDate(ob, DBConection.ZueteiltAm));
-					temp.setID((ObjectId)ob.get(DBConection.ID));
-					
-					list.add(temp);
+					list.add(export(ob));
 //					System.out.println(ob);
 					}catch(ParseException e){}
 				}
@@ -239,5 +199,21 @@ public class DBConection implements DataHandler{
 			return null;
 		}
 	}
-	
+	private Aufgabe export(DBObject ob) throws ParseException{
+		Aufgabe temp = new Aufgabe();
+		
+		temp.setArt((String)ob.get(DBConection.Art));
+		temp.setAutor((String)ob.get(DBConection.Author));
+		temp.setKathegorie((String)ob.get(DBConection.Kathegorie));
+		temp.setTags((String)ob.get(DBConection.Tags));
+		temp.setZugeteilt((String)ob.get(DBConection.Zugeteilt));
+		temp.setAngabe((String)ob.get(DBConection.Angabe));
+		
+		temp.setCreated(getDate(ob, DBConection.Created));
+		temp.setLastedit(getDate(ob, DBConection.LastEdit));
+		temp.setZugeteiltam(getDate(ob, DBConection.ZueteiltAm));
+		temp.setID((ObjectId)ob.get(DBConection.ID));
+		
+		return temp;
+	}
 }

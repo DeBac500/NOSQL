@@ -11,5 +11,15 @@
 <a href="/NOSQL/Aufgaben/main?neu=neu">Logout</a></br>
 <p align="center"/>
 <font>Aufgaben</font>
+<form action="/NOSQL/Aufgaben/main/suche" method="post">
+<table align="center"><tr>
+<td><input name="suche" type="text"></td><td><input type="submit" value="Suche"></td>
+</table>
+</form>
+<form action="/NOSQL/Aufgaben/main/suche" method="post">
+<table align="center"><tr>
+<td><input name="suche1" alt="YYYY-MM-DD" type="text"></td><td><input type="submit" value="Datum's Suche"></td>
+</table>
+</form>
 </body>
 </html>
