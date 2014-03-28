@@ -32,4 +32,14 @@
     <url-pattern>/Aufgaben/main/edit</url-pattern>
     <url-pattern>/Aufgaben/main/edit/save</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Admin</display-name>
+    <servlet-name>Admin</servlet-name>
+    <servlet-class>Admin.Admin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Admin</servlet-name>
+    <url-pattern>/Aufgaben/admin</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -1,5 +1,6 @@
 package Data;
 
+import java.awt.Cursor;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -215,5 +216,21 @@ public class DBConection implements DataHandler{
 		temp.setID((ObjectId)ob.get(DBConection.ID));
 		
 		return temp;
+	}
+	public List<String> getDB(String suche){
+		ArrayList<String> name = new ArrayList<String>();
+		DBCollection users = db.getCollection("system.users");
+		DBCursor c;
+		if(suche == null)
+			c = users.find();
+		else
+			c = users.find(new BasicDBObject("user", java.util.regex.Pattern.compile(suche)));
+		for(DBObject o : c){
+			name.add((String)o.get("user"));
+		}
+		return name;
+	}
+	public void deluser(String name){
+		db.removeUser(name);
 	}
 }
