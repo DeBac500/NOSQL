@@ -200,6 +200,22 @@ public class DBConection implements DataHandler{
 			return null;
 		}
 	}
+	@Override
+	public void remove(Object id) {
+		if(db.isAuthenticated()){
+			if(id instanceof ObjectId){
+				DBCollection aufgaben = db.getCollection("Aufgaben");
+				DBCursor cursor = aufgaben.find(new BasicDBObject().append("_id", id));
+				while(cursor.hasNext()) {
+					
+					DBObject ob = cursor.next();
+					aufgaben.remove(ob);
+//					System.out.println(ob);
+				}
+				cursor.close();
+			}
+		}
+	}
 	private Aufgabe export(DBObject ob) throws ParseException{
 		Aufgabe temp = new Aufgabe();
 		

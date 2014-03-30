@@ -1,0 +1,13 @@
+body {
+  min-height: 2000px;
+  padding-top: 70px;
+  max-width: 1000px;
+  background-color: #eee;
+  margin-left: auto;
+  margin-right: auto;
+}
+.div-search{
+	max-width: 570px;
+	margin-left: auto;
+    margin-right: auto;
+}

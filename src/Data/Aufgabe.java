@@ -6,9 +6,9 @@ import java.util.Date;
 import org.bson.types.ObjectId;
 
 public class Aufgabe implements Comparable<Aufgabe>{
-	public static SimpleDateFormat dateform = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-	public static SimpleDateFormat dateformdate = new SimpleDateFormat("YYYY-MM-dd");
-	public static SimpleDateFormat dateformtime = new SimpleDateFormat("HH:mm:ss");
+	public static SimpleDateFormat dateform = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	public static SimpleDateFormat dateformdate = new SimpleDateFormat("yyy-MM-dd");
+	public static SimpleDateFormat dateformtime = new SimpleDateFormat("HH:mm");
 	private ObjectId id;
 	private String art;
 	private String kathegorie;

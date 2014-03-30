@@ -12,4 +12,5 @@ public interface DataHandler {
 	public boolean login(String usr, String pwd);
 	public void register(String usr, String pwd);
 	public List<Aufgabe> find(Object id);
+	public void remove(Object id);
 }
