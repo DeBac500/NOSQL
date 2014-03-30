@@ -50,25 +50,27 @@ Entwerfen Sie ein System zur Verwaltung von alten Prüfungsfragen und Aufgabenst
 \end{itemize}
 \chapter{Designüberlegungen}
 \section{Zu implementierende Anforderungen}
-Als Datenbank wird MongoDB verwendet und für die Administrationsoberfläche wird ein Servlet erstellt, welches in Java EE implementiert wird. Für die Speicherung von Aufgabenart, Kategorie, Tags, Autor und Angabentext, werden simple Strings in der Datenbank abgelegt. Für erstellt/zuletzt geändert sowie zuletzt verwendet wird ein Datum im entsprechenden Format abgespeichert. Die Suche %TODO
-Die Benutzerverwaltung läuft über eine eigene Administrationsseite ab die über den Browser aufgerufen werden kann. 
+Als Datenbank wird MongoDB verwendet und für die Administrationsoberfläche wird ein Servlet erstellt, welches in Java EE implementiert wird. Die Darstellung wird mit dem Framework Twitter Bootstrap 3 erfolgen. Für die Speicherung von Aufgabenart, Kategorie, Tags, Autor und Angabentext, werden simple Strings in der Datenbank abgelegt. Für erstellt/zuletzt geändert sowie zuletzt verwendet wird ein Datum im entsprechenden Format abgespeichert. Die Suche wird über die Datenbank mit Abfragen laufen.
+Die Benutzerverwaltung läuft über eine eigene Administrationsseite ab, die über den Browser aufgerufen werden kann.
 
 \section{3er- und 4er-Gruppen Anforderungen}
-Für das Hinzufügen von zusätzlichen Keys und deren Values wird der Datensatz  gesucht und ein update auf diesen durchgeführt. Für zusätzliche Attachments von z.B. Bildern und Videos, wird einfach ein Button erstellt hinter den das entsprechende File per link angehängt wird. Dies könnte unter Umständen auch ein ftp Link sein. Die Volltextsuche %TODO
-Das Logging der Benutzeraktionen könnte z.B. über ein eigenes Framework realisiert werden (Log4j). Snapshots und Wiederherstellung der Datenbasis %TODO
+Für das Hinzufügen von zusätzlichen Keys und deren Values wird der Datensatz gesucht und ein update auf diesen durchgeführt. Für zusätzliche Attachments von z.B. Bildern und Videos, wird einfach ein Button erstellt hinter den das entsprechende File per link angehängt wird. Dies könnte unter Umständen auch ein FTP Link sein. Die Volltextsuche würde im Prinzip genauso funktionieren wie die normale Suche, nur dass die Suchparameter bei der DB-Abfrage erweitert werden müssen.
+Das Logging der Benutzeraktionen könnte z.B. über ein eigenes Framework realisiert werden (Log4j). Snapshots und Wiederherstellung der Datenbasis würde in erster Linie über die Datenbank selbst funktionieren, wobei eine entsprechende Verwaltung der Snapshots wiederum, über JavaEE möglich wäre. Siehe hierzu auch: \href{http://docs.mongodb.org/manual/replication/}{MongoDB Replikation Manual}
 
 
 \chapter{Arbeitsaufteilung}
 	\tabulinesep = 4pt
 	\begin{tabu}  {|[2pt]X[2.5,c] |[1pt] X[4,c] |[1pt]X[1.3,c]|[1pt]X[c]|[2pt]}
 		\tabucline[2pt]{-}
-		Name & Arbeitssegment & Time Estimated & Time Spent\\\tabucline[2pt]{-}
+		Name & Arbeitspaket & Time Estimated & Time Spent\\\tabucline[2pt]{-}
 		Alexander Rieppel & Datenbank installieren & 1h & 0.5h\\\tabucline[1pt]{-}
 		Alexander Rieppel & Datenbank konfigurieren & 1h & 1h\\\tabucline[1pt]{-}
 		Alexander Rieppel & JavaEE Servlet schreiben & 2h & 1h\\\tabucline[1pt]{-}
-		Dominik Backhausen & JavaEE Servlet schreiben & 2h & 3h\\\tabucline[1pt]{-}
+		Alexander Rieppel & Seiten Design mit Bootstrap & 2h & 3h\\\tabucline[1pt]{-}
+		Dominik Backhausen & JavaEE Servlet schreiben & 2h & 4h\\\tabucline[1pt]{-}
 		Dominik Backhausen & Datenbank Schnittstelle schreiben& 2h & 1.5h\\\tabucline[2pt]{-}
-		Gesamt && 8h & 7h\\\tabucline[2pt]{-}
+		
+		Gesamt && 10h & 11h\\\tabucline[2pt]{-}
 	\end{tabu}	
 	
 \chapter{Arbeitsdurchführung}
@@ -80,16 +82,22 @@ Das Logging der Benutzeraktionen könnte z.B. über ein eigenes Framework realis
 \item Die Daten für erstellt, zuletzt verwendet etc. werden einwandfrei angezeigt und gespeichert
 \item Die Suche funktioniert so wie in der Designüberlegung angegeben
 \item Die Benutzerverwaltung läuft über eine Adminseite
+\item Das Design wurde mit Hilfe von Twitter Bootstrap 3 implementiert
 \end{itemize}
+
 \section{Niederlagen}
 \begin{itemize}
-\item Bei der Darstellung des Servlets im Browser wurde auf ein externes Framework verzichtet und reines html verwendet
-
+\item Keine Niederlagen
 \end{itemize}
+
 \chapter{Testbericht}
-%TODO
+Sobald das Servlet und der Dienst von MongoDB gestartet ist, kann auf der lokalen Maschine folgende Seite aufgerufen werden:
+localhost:8080/NOSQL/Aufgaben/admin. Hier ist zunächst ein Login notwendig, wo sich mit dem Default-Administrator Benutzer admin und dem Passwort admin eingeloggt werden muss. Durch Eingabe eines Benutzernamens und eines Passworts können hier neue Benutzer angelegt werden. Zusätzlich hat man hier die Möglichkeit nach bestimmten vorhandenen Benutzern zu suchen und Benutzer zu löschen. Sollte der gewünschte Benutzer bereits vorher angelegt sein, kann der Schritt des neuen Benutzers übersprungen und direkt die Seite localhost:8080/NOSQL/Aufgaben aufgerufen werden. Nach erfolgtem Login mit dem entsprechenden Nutzer erscheinen die Datenbankeinträge, wobei mit einem Klick auf das Plus in der oberen Leiste ein neuer Datensatz erstellt werden kann. In dieser Ansicht werden alle erforderlichen Informationen eingegeben und danach kann der Datensatz abgespeichert oder durch einen Klick auf zurück verworfen werden. Analog hierzu funktioniert die Bearbeitungsfunktion durch einen Klick auf den Stift. Auch existiert hier die Möglichkeit eine Suche nach Art, Kategorie oder bestimmten Tags, bzw. nach Datum durchzuführen. Auch können hier Datensätze durch einen Klick auf das Kreuz gelöscht werden. Zuletzt ist es möglich sich durch den Logout-Button in der rechten oberen Ecke auszuloggen.
+
 \chapter{Quellen}
 \href{http://docs.mongodb.org/manual/reference/}{[1]http://docs.mongodb.org/manual/reference/}\\
 \href{https://www.mongodb.org/}{[2]https://www.mongodb.org/}\\
-\href{http://api.mongodb.org/java/}{[3]http://api.mongodb.org/java/}
+\href{http://api.mongodb.org/java/}{[3]http://api.mongodb.org/java/}\\
+\href{http://getbootstrap.com/}{[4]http://getbootstrap.com/}\\
+\href{http://getbootstrap.com/components/}{[5]http://getbootstrap.com/components/}
 \end{document}
