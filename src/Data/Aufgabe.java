@@ -4,11 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.bson.types.ObjectId;
-
+/**
+ * Datentyp zum speichern von Aufgaben
+ * @author dominik backhausen alexander rieppel
+ *
+ */
 public class Aufgabe implements Comparable<Aufgabe>{
-	public static SimpleDateFormat dateform = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-	public static SimpleDateFormat dateformdate = new SimpleDateFormat("YYYY-MM-dd");
-	public static SimpleDateFormat dateformtime = new SimpleDateFormat("HH:mm:ss");
+	public static SimpleDateFormat dateform = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	public static SimpleDateFormat dateformdate = new SimpleDateFormat("yyy-MM-dd");
+	public static SimpleDateFormat dateformtime = new SimpleDateFormat("HH:mm");
 	private ObjectId id;
 	private String art;
 	private String kathegorie;
@@ -21,7 +25,22 @@ public class Aufgabe implements Comparable<Aufgabe>{
 	private String angabe;
 	//private HashMap<String, String> zusatz; //4er Gruppe
 	//private String attach; //3er Gruppe
+	/**
+	 * Default Konstruktor
+	 */
 	public Aufgabe(){}
+	/**
+	 * Konstruktor mit allen Parametern
+	 * @param art
+	 * @param kat
+	 * @param tags
+	 * @param author
+	 * @param created
+	 * @param laste
+	 * @param zugeteilt
+	 * @param zugeteiltam
+	 * @param angabe
+	 */
 	public Aufgabe(String art, String kat, String tags, String author, 
 			Date created, Date laste, String zugeteilt,Date zugeteiltam, String angabe){
 		this.art = art;
@@ -34,65 +53,127 @@ public class Aufgabe implements Comparable<Aufgabe>{
 		this.angabe = angabe;
 		this.zugeteiltam = zugeteiltam;
 	}
-	public ObjectId getID(){
-		return this.id;
+	
+	
+	/**
+	 * @return the id
+	 */
+	public ObjectId getID() {
+		return id;
 	}
-	public void setID(ObjectId id){
+	/**
+	 * @param id the id to set
+	 */
+	public void setID(ObjectId id) {
 		this.id = id;
 	}
+	/**
+	 * @return the art
+	 */
 	public String getArt() {
 		return art;
 	}
+	/**
+	 * @param art the art to set
+	 */
 	public void setArt(String art) {
 		this.art = art;
 	}
+	/**
+	 * @return the kathegorie
+	 */
 	public String getKathegorie() {
 		return kathegorie;
 	}
+	/**
+	 * @param kathegorie the kathegorie to set
+	 */
 	public void setKathegorie(String kathegorie) {
 		this.kathegorie = kathegorie;
 	}
+	/**
+	 * @return the tags
+	 */
 	public String getTags() {
 		return tags;
 	}
+	/**
+	 * @param tags the tags to set
+	 */
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
+	/**
+	 * @return the autor
+	 */
 	public String getAutor() {
 		return autor;
 	}
+	/**
+	 * @param autor the autor to set
+	 */
 	public void setAutor(String autor) {
 		this.autor = autor;
 	}
+	/**
+	 * @return the created
+	 */
 	public Date getCreated() {
 		return created;
 	}
+	/**
+	 * @param created the created to set
+	 */
 	public void setCreated(Date created) {
 		this.created = created;
 	}
+	/**
+	 * @return the lastedit
+	 */
 	public Date getLastedit() {
 		return lastedit;
 	}
+	/**
+	 * @param lastedit the lastedit to set
+	 */
 	public void setLastedit(Date lastedit) {
 		this.lastedit = lastedit;
 	}
+	/**
+	 * @return the zugeteilt
+	 */
 	public String getZugeteilt() {
 		return zugeteilt;
 	}
+	/**
+	 * @param zugeteilt the zugeteilt to set
+	 */
 	public void setZugeteilt(String zugeteilt) {
 		this.zugeteilt = zugeteilt;
 	}
-	public String getAngabe() {
-		return angabe;
-	}
-	public void setAngabe(String angabe) {
-		this.angabe = angabe;
-	}
+	/**
+	 * @return the zugeteiltam
+	 */
 	public Date getZugeteiltam() {
 		return zugeteiltam;
 	}
+	/**
+	 * @param zugeteiltam the zugeteiltam to set
+	 */
 	public void setZugeteiltam(Date zugeteiltam) {
 		this.zugeteiltam = zugeteiltam;
+	}
+	/**
+	 * @return the angabe
+	 */
+	public String getAngabe() {
+		return angabe;
+	}
+	/**
+	 * @param angabe the angabe to set
+	 */
+	public void setAngabe(String angabe) {
+		this.angabe = angabe;
 	}
 	
 	@Override

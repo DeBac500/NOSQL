@@ -36,26 +36,36 @@ public class Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.dosomething(request, response);
 	}
-	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	private void dosomething(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String url[] = request.getRequestURL().toString().split("/");
 		PrintWriter out = response.getWriter();
 		if("Aufgaben".equalsIgnoreCase(url[url.length-1])){
-			RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/index.html");
 			rd.include(request, response);
 			String s = request.getParameter("reason");
 			if(s != null){
 				if(s.equalsIgnoreCase("login")){
-					out.println("<p align=\"center\" />");
-					out.println("<font color=\"#FF0000\"> Name oder Passwort Falsch!</font>");
+					out.println("<div class=\"alert alert-danger alert-dismissable div-test\">");
+//					out.println("<p align=\"center\"/>");
+					out.println("<span class=\"glyphicon glyphicon-remove\"></span> Name oder Passwort falsch");
+					out.println("</div>");
 				}
 				if(s.equalsIgnoreCase("login1")){
-					out.println("<p align=\"center\" color=\"#FF0000\"/>");
-					out.println("<font color=\"#FF0000\">Keine Verbindung zur Datenbasis</font>");
+					out.println("<div class=\"alert alert-danger alert-dismissable div-test\">");
+//					out.println("<p align=\"center\"/>");
+					out.println("<span class=\"glyphicon glyphicon-remove\"></span> Keine Verbindung zur Datenbasis");
+					out.println("</div>");
 				}
 				if(s.equalsIgnoreCase("logout")){
-					out.println("<p align=\"center\"/>");
-					out.println("Erfolgreich Ausgeloggt");
+					out.println("<div class=\"alert alert-success div-test\">");
+//					out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>");
+					out.println("<span class=\"glyphicon glyphicon-ok\"></span> Erfolgreich Ausgeloggt");
+//					out.println("<p align=\"center\"/>");
+//					out.println("Erfolgreich Ausgeloggt");
+					out.println("</div>");
 				}
 			}
 		}else{

@@ -28,6 +28,7 @@
   <servlet-mapping>
     <servlet-name>Main_View</servlet-name>
     <url-pattern>/Aufgaben/main</url-pattern>
+    <url-pattern>/Aufgaben/main/remove</url-pattern>
     <url-pattern>/Aufgaben/main/suche</url-pattern>
     <url-pattern>/Aufgaben/main/edit</url-pattern>
     <url-pattern>/Aufgaben/main/edit/save</url-pattern>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/NOSQL/assets/ico/favicon.png">
+
+    <title>Aufgaben</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/NOSQL/dist/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/NOSQL/navbar-fixed-top.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/NOSQL/Aufgaben/main?save=fin">Aufgaben Home</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/NOSQL/Aufgaben/main?neu=neu">Logout</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading"><h2><p align="center"/>Aufgaben</h2></div>
+    </div>
+    <div class="Searches div-search">
+        <form class="navbar-form navbar-left" role="search" action="/NOSQL/Aufgaben/main/suche" method="post">
+        <div class="form-group div-search">
+          <input name="suche" type="text" class="form-control" placeholder="Art, Kategorie, Tags">
+        </div>
+        <button type="submit" class="btn btn-default">Suche</button>
+      </form>
+      <form class="navbar-form navbar-left" role="search" action="/NOSQL/Aufgaben/main/suche" method="post">
+        <div class="form-group div-search">
+          <input name="suche1" type="text" class="form-control" placeholder="Datum">
+        </div>
+        <button type="submit" class="btn btn-default">Suche</button>
+      </form>
+    </div>
+    <!-- Table -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/NOSQL/assets/js/jquery.js"></script>
+    <script src="/NOSQL/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
