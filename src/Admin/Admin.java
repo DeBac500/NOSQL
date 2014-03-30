@@ -121,7 +121,7 @@ public class Admin extends HttpServlet {
 		rd.include(request, response);
 		if(suche != null){
 			out.println("<p align=\"center\"/>");
-			out.println("<a href=\"/NOSQL/Aufgaben/admin\">Zur&uuml;ck</a></br>");
+			out.println("<button type=button class=\"btn\" onclick=\"window.location.href='/NOSQL/Aufgaben/admin'\">Zur&uuml;cksetzen</button></td><td></td><td align=\"left\" colspan=\"5\"></br>");
 		}
 		out.println("<table class=\"table\">");
 		out.println("<thead><tr><th>Name</th><th></th></tr></thead><tbody>");

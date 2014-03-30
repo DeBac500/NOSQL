@@ -169,8 +169,13 @@ public class Main_View extends HttpServlet {
 					auf.setTags(Tags);
 					auf.setZugeteilt(Zugeteilt);
 					auf.setAngabe(aufgaben);
+					try{
 					auf.setZugeteiltam(simp.parse(zuamyyyy + "-" + zuamMM + "-"
 							+ zuamdd + " " + zuamHH + ":" + zuammm));
+					}catch(ParseException e){
+						response.setStatus(response.SC_MOVED_TEMPORARILY);
+						response.setHeader("Location","/NOSQL/Aufgaben/main?save=fin");
+					}
 					if (inc != null && machine != null && time != null) {
 						ObjectId id = new ObjectId(Integer.parseInt(time),
 								Integer.parseInt(machine),
@@ -182,6 +187,7 @@ public class Main_View extends HttpServlet {
 									"/NOSQL/Aufgaben?reason=login1");
 						}
 						db.edit(auf);
+					
 					} else {
 						auf.setCreated(new Date());
 						if (db == null) {
@@ -250,9 +256,6 @@ public class Main_View extends HttpServlet {
 		} catch (NumberFormatException e) {
 			response.setStatus(response.SC_MOVED_TEMPORARILY);
 			response.setHeader("Location", "/NOSQL/Aufgaben?reason=faild");
-		} catch (ParseException e) {
-			response.setStatus(response.SC_MOVED_TEMPORARILY);
-			response.setHeader("Location", "/NOSQL/Aufgaben?reason=login1");
 		} catch (NullPointerException e) {
 			response.setStatus(response.SC_MOVED_TEMPORARILY);
 			response.setHeader("Location", "/NOSQL/Aufgaben?reason=login1");
@@ -288,7 +291,7 @@ public class Main_View extends HttpServlet {
 			out.println("<table class=\"tab\" border=\"0\">");
 			out.println("<tr><td>Art:</td><td colspan=\"9\"><input name=\"Art\" type=\"text\" class=\"form-control\" placeholder=\"Art\" value=\""
 					+ auf.getArt() + "\"></td></tr>");
-			out.println("<tr><td>Kathegorie:</td><td colspan=\"9\"><input name=\"Kathegorie\" type=\"text\" class=\"form-control\" placeholder=\"Kathegorie\" value=\""
+			out.println("<tr><td>Kategorie:</td><td colspan=\"9\"><input name=\"Kathegorie\" type=\"text\" class=\"form-control\" placeholder=\"Kategorie\" value=\""
 					+ auf.getKathegorie() + "\"></td></tr>");
 			out.println("<tr><td>Tags:</td><td colspan=\"9\"><input name=\"Tags\" type=\"text\" class=\"form-control\" placeholder=\"Tags\" value=\""
 					+ auf.getTags() + "\"></td></tr>");
@@ -323,11 +326,11 @@ public class Main_View extends HttpServlet {
 					+ auf.getID()._time() + "\">");
 			out.println("</form>");
 		} else {
-			out.println("<h3><p align=\"center\"/>Bearbeiten</h3>");
+			out.println("<h3><p align=\"center\"/>Erstellen</h3>");
 			out.println("<form action=\"edit/save\" method=\"post\">");
 			out.println("<table class=\"tab\" border=\"0\">");
 			out.println("<tr><td>Art:</td><td colspan=\"9\"><input name=\"Art\" type=\"text\" class=\"form-control\" placeholder=\"Art\"></td></tr>");
-			out.println("<tr><td>Kathegorie:</td><td colspan=\"9\"><input name=\"Kathegorie\" type=\"text\" class=\"form-control\" placeholder=\"Kathegorie\" ></td></tr>");
+			out.println("<tr><td>Kategorie:</td><td colspan=\"9\"><input name=\"Kathegorie\" type=\"text\" class=\"form-control\" placeholder=\"Kategorie\" ></td></tr>");
 			out.println("<tr><td>Tags:</td><td colspan=\"9\"><input name=\"Tags\" type=\"text\" class=\"form-control\" placeholder=\"Tags\"></td></tr>");
 			out.println("<tr><td>Autor:</td><td colspan=\"9\"><input name=\"Author\" type=\"text\" class=\"form-control\" placeholder=\"Autor\" ></td></tr>");
 			out.println("<tr><td>Zugeteilt:</td><td colspan=\"9\"><input name=\"Zugeteilt\" type=\"text\" class=\"form-control\" placeholder=\"Zugeteilt\"></td></tr>");
@@ -352,7 +355,7 @@ public class Main_View extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("/nav.html");
 		rd.include(request, response);
 		out.println("<table class=\"table\">");
-		out.println("<thead><tr><th>Art</th><th>Kathegorie</th><th>Tags</th><th>Autor</th><th>Zugeteilt</th><th>Zugeteilt am</th><th>Erstellt</th><th>Zuletzt ge&auml;ndert</th><th><a href=\"/NOSQL/Aufgaben/main/edit\"><span class=\"glyphicon glyphicon-plus\"></span></a></th><th></th></tr></thead>");
+		out.println("<thead><tr><th>Art</th><th>Kategorie</th><th>Tags</th><th>Autor</th><th>Zugeteilt</th><th>Zugeteilt am</th><th>Erstellt</th><th>Zuletzt ge&auml;ndert</th><th><a href=\"/NOSQL/Aufgaben/main/edit\"><span class=\"glyphicon glyphicon-plus\"></span></a></th><th></th></tr></thead>");
 		out.println("<tbody>");
 		List<Aufgabe> list = db.getAll();
 		Collections.sort(list);
@@ -401,7 +404,7 @@ public class Main_View extends HttpServlet {
 		out.println("<p align=\"center\"/>");
 		out.println("<button type=button class=\"btn\" onclick=\"window.location.href='/NOSQL/Aufgaben/main?save=fin'\">Zur&uuml;cksetzen</button></br>");
 		out.println("<table class=\"table\">");
-		out.println("<thead><tr><th>Art</th><th>Kathegorie</th><th>Tags</th><th>Autor</th><th>Zugeteilt</th><th>Zugeteilt am</th><th>Erstellt</th><th>Zuletzt ge&auml;ndert</th><th><a href=\"/NOSQL/Aufgaben/main/edit\"><span class=\"glyphicon glyphicon-plus\"></span></a></th><th></th></tr></thead>");
+		out.println("<thead><tr><th>Art</th><th>Kategorie</th><th>Tags</th><th>Autor</th><th>Zugeteilt</th><th>Zugeteilt am</th><th>Erstellt</th><th>Zuletzt ge&auml;ndert</th><th><a href=\"/NOSQL/Aufgaben/main/edit\"><span class=\"glyphicon glyphicon-plus\"></span></a></th><th></th></tr></thead>");
 		out.println("<tbody>");
 		Collections.sort(list);
 		SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd HH:mm");
