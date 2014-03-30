@@ -19,6 +19,7 @@ import Main_View.Main_View;
 
 /**
  * Servlet implementation class Admin
+ * @author dominik backhausen alexander rieppel
  */
 public class Admin extends HttpServlet {
 	private static String adm = "aufgabenadmin";
@@ -47,7 +48,9 @@ public class Admin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.does(request, response);
 	}
-
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	public void does(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		String url[] = request.getRequestURL().toString().split("/");
 		PrintWriter out = response.getWriter();

@@ -1,14 +1,12 @@
 package Main_View;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +26,7 @@ import Data.DataHandler;
 
 /**
  * Servlet implementation class Main_View
+ * @author dominik backhausen, alexander rieppel
  */
 public class Main_View extends HttpServlet {
 	private DataHandler db;
@@ -58,7 +57,10 @@ public class Main_View extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		this.dosomething(request, response);
 	}
-
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
 	private void dosomething(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -256,7 +258,11 @@ public class Main_View extends HttpServlet {
 			response.setHeader("Location", "/NOSQL/Aufgaben?reason=login1");
 		}
 	}
-
+	/**
+	 * Erstellt die Bearbeiten/Erstellen Seite
+	 * @param out
+	 * @param auf
+	 */
 	private void setupEdit(PrintWriter out, Aufgabe auf) {
 		out.println("<!DOCTYPE html>"
 				+ "<html lang=\"en\">"
@@ -333,7 +339,14 @@ public class Main_View extends HttpServlet {
 			out.println("</form>");
 		}
 	}
-
+	/**
+	 * Erstellt die Main Seite
+	 * @param out
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void setupMain(PrintWriter out, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher("/nav.html");
@@ -371,7 +384,15 @@ public class Main_View extends HttpServlet {
 		}
 		out.println("</tbody></table>");
 	}
-
+	/**
+	 * Erstellt die SuchenSeite
+	 * @param list
+	 * @param out
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void setUPSuche(List<Aufgabe> list, PrintWriter out,
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

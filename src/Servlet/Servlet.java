@@ -36,7 +36,9 @@ public class Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.dosomething(request, response);
 	}
-	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	private void dosomething(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String url[] = request.getRequestURL().toString().split("/");
 		PrintWriter out = response.getWriter();

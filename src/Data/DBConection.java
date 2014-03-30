@@ -1,6 +1,5 @@
 package Data;
 
-import java.awt.Cursor;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -16,15 +15,29 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.QueryBuilder;
-
+/**
+ * Implementierung von DataHandler als Verbindung zu einer MongoDB Datenbank
+ * @author dominik backhausen, alexander rieppel
+ *
+ */
 public class DBConection implements DataHandler{
 	public static String Art = "Art", Author = "Author", Kathegorie = "Kathegorie", Tags = "Tags", 
 			Zugeteilt = "Zugeteilt",Created = "Created", LastEdit = "LastEdit" , ZueteiltAm = "ZugeteiltAm",
 			Date = "Date", Time = "Time", ID = "_id", Angabe="Angabe";
 	private MongoClient client;
 	private DB db;
+	/**
+	 * Konstruktor zur uebergabe von IP und DBName
+	 */
 	public DBConection (String ip, String dbname) throws UnknownHostException{
 		this(ip,27017 ,dbname);
+	}
+	/**
+	 * Konstruktor zur uebergabe von IP, port und DBName
+	 */
+	public DBConection (String ip, int port, String dbname) throws UnknownHostException{
+		client = new MongoClient(ip,port);
+		db = client.getDB(dbname);
 	}
 	@Override
 	public List<Aufgabe> getAll() {
@@ -45,10 +58,7 @@ public class DBConection implements DataHandler{
 			return null;
 		}
 	}
-	public DBConection (String ip, int port, String dbname) throws UnknownHostException{
-		client = new MongoClient(ip,port);
-		db = client.getDB(dbname);
-	}
+	
 	@Override
 	public boolean save(Aufgabe save) {
 		if(db.isAuthenticated()){
@@ -71,12 +81,24 @@ public class DBConection implements DataHandler{
 			return false;
 		}
 	}
+	/**
+	 * Liest ein Date Objekt aus der Datenbank
+	 * @param ob
+	 * @param key
+	 * @return
+	 * @throws ParseException
+	 */
 	private Date getDate(DBObject ob, String key) throws ParseException{
 		DBObject ob1 = (DBObject)ob.get(key);
 		String d = (String)ob1.get(DBConection.Date);
 		String t = (String)ob1.get(DBConection.Time);
 		return Aufgabe.dateform.parse(d + " " + t);
 	}
+	/**
+	 * Speichert ein Date Objekt in ein DBObjekt
+	 * @param date
+	 * @return
+	 */
 	private BasicDBObject saveDate(Date date) {
 		BasicDBObject ob = new BasicDBObject();
 		ob.append(DBConection.Date, Aufgabe.dateformdate.format(date));
@@ -216,6 +238,12 @@ public class DBConection implements DataHandler{
 			}
 		}
 	}
+	/**
+	 * Erstellt ein Aufgabenobjekt und speichert werte aus der Datenbank darin ab
+	 * @param ob
+	 * @return
+	 * @throws ParseException
+	 */
 	private Aufgabe export(DBObject ob) throws ParseException{
 		Aufgabe temp = new Aufgabe();
 		
@@ -233,6 +261,11 @@ public class DBConection implements DataHandler{
 		
 		return temp;
 	}
+	/**
+	 * Gibt Alle User aus die fuer diese DB Registriert sind
+	 * @param suche
+	 * @return
+	 */
 	public List<String> getDB(String suche){
 		ArrayList<String> name = new ArrayList<String>();
 		DBCollection users = db.getCollection("system.users");
@@ -246,6 +279,10 @@ public class DBConection implements DataHandler{
 		}
 		return name;
 	}
+	/**
+	 * Loescht User
+	 * @param name
+	 */
 	public void deluser(String name){
 		db.removeUser(name);
 	}
